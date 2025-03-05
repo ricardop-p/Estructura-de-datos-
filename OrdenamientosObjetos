@@ -1,0 +1,137 @@
+public class OrdenamientosObjetos {
+    
+    public static void main(String[] args) {
+        OrdenamientosObjetos pruebaOrdenamiento = new OrdenamientosObjetos();
+        pruebaOrdenamiento.probarOrdenamientos();
+    }
+
+    public OrdenamientosObjetos() {}
+
+    public void probarOrdenamientos() {
+        // Crear algunos productos
+        Producto producto1 = new Producto(101, 50.0, 20);
+        Producto producto2 = new Producto(102, 30.0, 15);
+        Producto producto3 = new Producto(103, 40.0, 10);
+
+        // Crear arreglo estático de productos
+        Producto[] productos = {
+            producto1,
+            producto2,
+            producto3
+        };
+        
+        // Agregar un nuevo producto
+        Producto producto4 = new Producto(104, 60.0, 25);
+        productos = agregarProducto(productos, producto4);
+
+        // Buscar un producto por código
+        Producto encontrado = buscarProductoPorCodigo(productos, 102);
+        if (encontrado != null) {
+            System.out.println("\nProducto encontrado: " + encontrado);
+        } else {
+            System.out.println("\nProducto no encontrado.");
+        }
+
+        // Ordenar productos por precio utilizando el algoritmo de burbuja
+        productos = ordenarPorPrecio(productos);
+
+        // Imprimir los productos ordenados por precio
+        System.out.println("\nProductos ordenados por precio:");
+        for (Producto producto : productos) {
+            System.out.println(producto);
+        }
+
+        // Ordenar productos por cantidad utilizando el algoritmo de burbuja
+        productos = ordenarPorCantidad(productos);
+
+        // Imprimir los productos ordenados por cantidad
+        System.out.println("\nProductos ordenados por cantidad:");
+        for (Producto producto : productos) {
+            System.out.println(producto);
+        }
+    }
+
+    // Método para agregar un producto a un arreglo de productos
+    public Producto[] agregarProducto(Producto[] productos, Producto nuevoProducto) {
+        Producto[] nuevoArreglo = new Producto[productos.length + 1];
+        System.arraycopy(productos, 0, nuevoArreglo, 0, productos.length);
+        nuevoArreglo[productos.length] = nuevoProducto;
+        return nuevoArreglo;
+    }
+
+    // Método para buscar un producto por su código
+    public Producto buscarProductoPorCodigo(Producto[] productos, int codigo) {
+        for (Producto producto : productos) {
+            if (producto.getCodigo() == codigo) {
+                return producto;
+            }
+        }
+        return null; // Retorna null si no se encuentra el producto
+    }
+
+    // Ordenar productos por precio usando el algoritmo de burbuja
+    public Producto[] ordenarPorPrecio(Producto[] productos) {
+        int n = productos.length;
+        Producto[] ordenado = productos.clone();
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (ordenado[j].getPrecio() > ordenado[j + 1].getPrecio()) {
+                    Producto temp = ordenado[j];
+                    ordenado[j] = ordenado[j + 1];
+                    ordenado[j + 1] = temp;
+                }
+            }
+        }
+        return ordenado;
+    }
+
+    // Ordenar productos por cantidad usando el algoritmo de burbuja
+    public Producto[] ordenarPorCantidad(Producto[] productos) {
+        int n = productos.length;
+        Producto[] ordenado = productos.clone();
+
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - 1 - i; j++) {
+                if (ordenado[j].getCantidad() > ordenado[j + 1].getCantidad()) {
+                    Producto temp = ordenado[j];
+                    ordenado[j] = ordenado[j + 1];
+                    ordenado[j + 1] = temp;
+                }
+            }
+        }
+        return ordenado;
+    }
+}
+
+class Producto {
+    private int codigo;
+    private double precio;
+    private int cantidad;
+
+    // Constructor
+    public Producto(int codigo, double precio, int cantidad) {
+        this.codigo = codigo;
+        this.precio = precio;
+        this.cantidad = cantidad;
+    }
+
+    // Métodos getter
+    public int getCodigo() {
+        return codigo;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    // Sobreescribir toString para una impresión más clara
+    @Override
+    public String toString() {
+        return "Producto [Codigo=" + codigo + ", Precio=" + precio + ", Cantidad=" + cantidad + "]";
+    }
+}
